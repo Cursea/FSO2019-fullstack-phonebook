@@ -27,39 +27,47 @@ app.get("/api/persons", (req, res) => {
 });
 
 app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id)
-  const person = persons.find(person => person.id === id)
+  const id = Number(req.params.id);
+  const person = persons.find(person => person.id === id);
 
   if (person) {
-    res.json(person)
+    res.json(person);
   } else {
-    res.status(404).end()
+    res.status(404).end();
   }
-})
+});
 
 app.get("/info", (req, res) => {
   res.send(`
-    <p><a href="api/persons">Phonebook</a> has info for ${persons.length} people</p>
+    <p><a href="api/persons">Phonebook</a> has info for ${
+      persons.length
+    } people</p>
     <p>${new Date()}</p>
     `);
 });
 
 app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id)
-  persons = persons.filter(person => person.id !== id)
+  const id = Number(req.params.id);
+  persons = persons.filter(person => person.id !== id);
 
-  res.status(204).end()
-})
+  res.status(204).end();
+});
 
-const generateId = () => Math.floor(Math.random() * 100) + 1
+const generateId = () => Math.floor(Math.random() * 100) + 1;
 
 app.post("/api/persons", (req, res) => {
-  const body = req.body
-  
-  if (!body.name) {
+  const body = req.body;
+
+  if (!body.name || !body.number) {
     return res.status(400).json({
-      error: 'person name missing'
-    })
+      error: "person name or number is missing"
+    });
+  }
+
+  if (persons.some(e => e.name.toLowerCase() === body.name.toLowerCase())) {
+    return res.status(400).json({
+      error: "name must be unique"
+    });
   }
 
   const person = {
@@ -67,13 +75,13 @@ app.post("/api/persons", (req, res) => {
     number: body.number,
     date: new Date(),
     id: generateId()
-  }
-  console.log(person)
+  };
+  console.log(person);
 
-  persons = persons.concat(person)
+  persons = persons.concat(person);
 
-  res.json(person)
-})
+  res.json(person);
+});
 
 const PORT = 3001;
 app.listen(PORT, () => {
