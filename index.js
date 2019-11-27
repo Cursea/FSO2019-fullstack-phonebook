@@ -22,7 +22,7 @@ let persons = [
 ];
 
 app.use(bodyParser.json());
-app.use(morgan('tiny', {}))
+app.use(morgan('tiny'));
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
