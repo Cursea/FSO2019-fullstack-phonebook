@@ -24,6 +24,7 @@ let persons = [
 
 app.use(bodyParser.json());
 app.use(cors())
+app.use(express.static('build'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
 
 morgan.token('postData', function(req) { return JSON.stringify(req.body)})
