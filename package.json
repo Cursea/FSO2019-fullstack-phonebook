@@ -7,6 +7,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongoose": "^5.8.1",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
@@ -19,7 +20,7 @@
     "watch": "nodemon index.js",
     "build:ui": "rm -rf build && cd ../FullStackOpen2019/part3/phonebook-frontend && npm run build --prod && cp -r build ../../../FSO2019-phonebook-backend/",
     "deploy": "git push heroku master",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",    
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
   "author": "Marco Burman",
