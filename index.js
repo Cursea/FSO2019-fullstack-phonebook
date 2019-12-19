@@ -30,7 +30,7 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :postData'))
 
-morgan.token('postData', function(req) { return JSON.stringify(req.body)})
+morgan.token('postData', function (req) { return JSON.stringify(req.body) })
 
 app.get("/api/persons", (req, res) => {
   Person.find({}).then(persons => {
@@ -39,20 +39,15 @@ app.get("/api/persons", (req, res) => {
 });
 
 app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find(person => person.id === id);
-
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).end();
-  }
+  Person.findById(req.params.id).then(person => {
+    res.json.(person.toJSON())
+  })
 });
 
 app.get("/info", (req, res) => {
   res.send(`
     <p><a href="api/persons">Phonebook</a> has info for ${
-      persons.length
+    persons.length
     } people</p>
     <p>${new Date()}</p>
     `);
