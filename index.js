@@ -47,7 +47,7 @@ app.get("/api/persons/:id", (req, res) => {
 app.get("/info", (req, res) => {
   res.send(`
     <p><a href="api/persons">Phonebook</a> has info for ${
-    persons.length
+    Person.length
     } people</p>
     <p>${new Date()}</p>
     `);
@@ -65,29 +65,31 @@ const generateId = () => Math.floor(Math.random() * 100) + 1;
 app.post("/api/persons", (req, res) => {
   const body = req.body;
 
-  if (!body.name || !body.number) {
+  if (body.name === undefined || body.number === undefined) {
     return res.status(400).json({
       error: "person name or number is missing"
     });
   }
 
-  if (persons.some(e => e.name.toLowerCase() === body.name.toLowerCase())) {
+  /*
+  if (Person.some(e => e.name.toLowerCase() === body.name.toLowerCase())) {
     return res.status(400).json({
       error: "name must be unique"
     });
   }
+  */
 
-  const person = {
+  const person = new Person ({
     name: body.name,
     number: body.number,
-    date: new Date(),
-    id: generateId()
-  };
+    date: new Date()
+  })
+
+  person.save().then(savedPerson => {
+    res.json(savedPerson.toJSON())
+  })
+
   console.log(person);
-
-  persons = persons.concat(person);
-
-  res.json(person);
 });
 
 const PORT = process.env.PORT || 3001;
