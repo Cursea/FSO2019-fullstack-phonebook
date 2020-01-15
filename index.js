@@ -58,9 +58,12 @@ app.get("/api/persons/:id", (req, res, next) => {
 
 app.get("/info", (req, res) => {
   res.send(`
-    <p><a href="api/persons">Phonebook</a> has info for ${
-      Person.length
-    } people</p>
+    <p><a href="api/persons">Phonebook</a> has info for ${Person.countDocuments(
+      {},
+      function(err, c) {
+        c
+      }
+    )} people</p>
     <p>${new Date()}</p>
     `)
 })
