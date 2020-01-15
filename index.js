@@ -57,15 +57,15 @@ app.get("/api/persons/:id", (req, res, next) => {
 })
 
 app.get("/info", (req, res) => {
-  res.send(`
-    <p><a href="api/persons">Phonebook</a> has info for ${Person.countDocuments(
-      {},
-      function(err, c) {
-        c
-      }
-    )} people</p>
-    <p>${new Date()}</p>
-    `)
+  Person.countDocuments(
+    {},
+    function(err, c) {
+      res.send(`
+      <p><a href="api/persons">Phonebook</a> has info for ${c} people</p>
+      <p>${new Date()}</p>
+      `)
+    }
+  )
 })
 
 app.delete("/api/persons/:id", (req, res) => {
