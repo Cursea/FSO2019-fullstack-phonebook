@@ -73,8 +73,6 @@ app.delete("/api/persons/:id", (req, res) => {
     .catch(error => next(error))
 })
 
-//const generateId = () => Math.floor(Math.random() * 100) + 1;
-
 app.post("/api/persons", (req, res) => {
   const body = req.body
 
@@ -83,14 +81,6 @@ app.post("/api/persons", (req, res) => {
       error: "person name or number is missing"
     })
   }
-
-  /*
-  if (Person.some(e => e.name.toLowerCase() === body.name.toLowerCase())) {
-    return res.status(400).json({
-      error: "name must be unique"
-    });
-  }
-  */
 
   const person = new Person({
     name: body.name,
@@ -103,6 +93,21 @@ app.post("/api/persons", (req, res) => {
   })
 
   console.log(person)
+})
+
+app.put("/api/persons/:id", (req, res, next) => {
+  const body = req.body
+
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+
+  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    .then(updatedPerson => {
+      res.json(updatedPerson.toJSON())
+    })
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, request, response, next) => {
