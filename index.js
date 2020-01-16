@@ -57,20 +57,17 @@ app.get("/api/persons/:id", (req, res, next) => {
 })
 
 app.get("/info", (req, res) => {
-  Person.countDocuments(
-    {},
-    function(err, c) {
-      res.send(`
+  Person.countDocuments({}, function(err, c) {
+    res.send(`
       <p><a href="api/persons">Phonebook</a> has info for ${c} people</p>
       <p>${new Date()}</p>
       `)
-    }
-  )
+  })
 })
 
-app.delete("/api/persons/:id", (req, res) => {
+app.delete("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
-    .then(res => {
+    .then(result => {
       res.status(204).end()
     })
     .catch(error => next(error))
