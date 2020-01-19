@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
-  console.log("password must be passed as an arg")
+  console.log('password must be passed as an arg')
   process.exit(1)
 }
 
@@ -16,12 +16,12 @@ const personSchema = new mongoose.Schema({
   number: String
 })
 
-const Person = mongoose.model("Person", personSchema)
+const Person = mongoose.model('Person', personSchema)
 
 //show all phonebook entries
 if (process.argv.length === 3) {
   Person.find({}).then(result => {
-    console.log("phonebook:")
+    console.log('phonebook:')
     result.forEach(person => {
       console.log(`${person.name} ${person.number}`)
     })
@@ -36,7 +36,7 @@ if (process.argv.length === 5) {
     number: process.argv[4]
   })
 
-  person.save().then(response => {
+  person.save().then(() => {
     console.log(`added ${process.argv[3]} (${process.argv[4]}) to phonebook`)
     mongoose.connection.close()
   })
